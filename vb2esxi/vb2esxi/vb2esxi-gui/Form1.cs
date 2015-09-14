@@ -15,6 +15,9 @@ namespace vb2esxi_gui
     {
         private const string EndString = "</Envelope>";
 
+        private const string exsiExt = "-Esxi.ovf";
+        private const string exsiTmpExt = "-Esxi-tmp.ovf";
+
         List<VmRpItem> rpList { get; set; }
         public Form1()
         {
@@ -32,11 +35,8 @@ namespace vb2esxi_gui
             {
                 var filePath = dialog.FileName;
                 txtFile.Text = filePath;
-                var targetFile = filePath.Replace(".ova", "-vbm.ovf");
+                var targetFile = filePath.Replace(".ova", exsiExt);
                 // var targetFileResult = filePath.Replace(".ova", ".ovf");
-
-               
-
 
                 //1 先转换为ovf,然后再修改
                 var convertret = OvfTool.ConvertOva(filePath, targetFile);
@@ -134,7 +134,7 @@ namespace vb2esxi_gui
         }
         private void ProcessOVF( string targetFile)
         {
-            var tmpOvf = targetFile.Replace("-vbm.ovf", "-vbm-tmp.ovf");
+            var tmpOvf = targetFile.Replace(exsiExt, exsiTmpExt);
 
             File.Copy(targetFile, tmpOvf,true);
 
